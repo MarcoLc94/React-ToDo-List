@@ -44,7 +44,7 @@ function App() {
     </form>
     <h1>To Do List</h1>
     <ul className="list">
-      {todos.map(todo => {
+      {todos.length === 0 ? "No todos" : todos.map(todo => {
         return (<li key={todo.id}>
         <label>
           <input type="checkbox" onChange={(e)=> toggleTodo(todo.id, e.target.checked)}/>{todo.title}
