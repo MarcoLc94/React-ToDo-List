@@ -1,20 +1,15 @@
 import { useState } from "react";
 import './style.css'
+import NewToDoForm from "./components/NewToDoForm";
+import ToDoList from "./components/ToDoList";
 
 function App() {
-  const [newItem, SetNewItem] = useState("");
+  
   const [todos, setTodos] = useState([]);
 
-  function handleChange(event){
-    SetNewItem(event.target.value);
-  }
-
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    setTodos([...todos, {id: crypto.randomUUID(), title: newItem, completed: false}])
-    SetNewItem("");
-  }
+  function addtodo(title){
+     setTodos([...todos, {id: crypto.randomUUID(), title: title, completed: false}])
+  } 
 
   function toggleTodo(id, checked) {
     setTodos((currentTodos) => {
@@ -35,24 +30,9 @@ function App() {
 
   return (
     <>
-    <form className="new-item-form" onSubmit={handleSubmit}>
-      <div className="form-row">
-        <label htmlFor="item">New Item</label>
-        <input type="text" id="item" value={newItem} onChange = {handleChange}/>
-      </div>
-      <button className='btn'>Add</button>
-    </form>
+    <NewToDoForm onSubmit={addtodo}/>
     <h1>To Do List</h1>
-    <ul className="list">
-      {todos.map(todo => {
-        return (<li key={todo.id}>
-        <label>
-          <input type="checkbox" onChange={(e)=> toggleTodo(todo.id, e.target.checked)}/>{todo.title}
-        </label>
-        <button className="btn btn-danger" onClick={(e) => deleteTodo(todo.id)}>Delete</button>
-      </li>);
-      })}
-    </ul>
+    <ToDoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo}/>
     </>
   );
 }
